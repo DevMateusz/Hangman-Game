@@ -1,5 +1,16 @@
-let currentlyWord = "Hejka tu lenka";
-currentlyWord = currentlyWord.toUpperCase();
+const baseWords = ["outlook", "The Last of Us", "Gentleman Jack", "Diesel Only The Brave", " Petrol Industriesc", "Frywolne Zakonnice", "Imperialistyczne Frankfurterki"]
+let currentlyWord = "";
+
+function randomWord(){
+    const randomNumber = Math.floor(Math.random() * (baseWords.length));
+    console.log(randomNumber);
+    currentlyWord = baseWords[randomNumber];
+    currentlyWord = currentlyWord.toUpperCase();
+
+}
+
+
+
 
 function tableToString(table){
     let string = "";
@@ -20,8 +31,8 @@ function wordToTable(){
 
 let hidenWord = [];
 function makeHidenWord(){
-    const lenght = currentlyWord.length;
-    for (let i = 0; i < lenght; i++) {
+    const length = currentlyWord.length;
+    for (let i = 0; i < length; i++) {
         if(currentlyWordTable[i] == " "){
             hidenWord.push(" ");
         } else{
@@ -53,6 +64,14 @@ const letter = document.getElementById(idLetter);
 letter.classList.add(`${status}Word`);
 }
 
+function checkStatusGame(){
+    const wordOne = tableToString(hidenWord);
+    const wordTwo =tableToString(currentlyWordTable);
+    if(wordOne == wordTwo){
+        alert("juchu wygrałeś")
+        newGame();
+    }
+}
 
 function checkLetter(number){
     for (let i = 0; i < currentlyWordTable.length; i++) {
@@ -66,15 +85,23 @@ function checkLetter(number){
         }
     }
     wordWrite();
+    setTimeout(function(){checkStatusGame();},10);
 }
 
-function start(){
+function resetVariables(){
+    currentlyWordTable = [];
+    hidenWord = [];
+}
+
+function newGame(){
+    resetVariables();
+    randomWord();
     lettersMake();
     wordToTable();
     makeHidenWord();
     wordWrite();
 }
-window.onload = start;
+window.onload = newGame;
 
 
 
