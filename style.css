@@ -1,0 +1,81 @@
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  font-family: 'Syne Mono', monospace;
+  
+}
+body{
+  background-color: rgb(82, 82, 82);
+}
+.main-container{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(82, 82, 82);
+}
+#word{
+  width: 60vh;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 60px;
+  padding: 30px;
+  text-shadow: 4px 3px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+}
+
+#letters{
+  font-weight: bold;
+margin-top: 50px;
+width: 504px;
+min-height: 300px ;
+margin-left: auto;
+margin-right: auto;
+
+font-family: "Amatic SC script=latin rev=2";
+font-weight: 700;
+font-style: normal;
+
+}
+.letter{
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 5px;
+  margin: 5px;
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 20px;
+  float: left;
+  cursor: pointer;
+  font-size: 25px;
+  transition: 0.2s;
+  box-shadow: 6px 9px rgba(0, 0, 0, 0.2);
+}
+.letter:hover{
+  transform: translateY(-10%);
+  border: 3px solid rgb(14, 14, 14);
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 6px 9px rgba(0, 0, 0, 0.1) ;
+}
+#video{
+  padding: 0;
+  margin: auto;
+  margin-top: 30px;
+  display: block;
+  width: 700px ;
+  box-shadow: 0px 0px 30px 50px rgb(7, 7, 7);
+}
+
+.falseWord{
+  color: rgb(185, 6, 6);
+  border: 3px solid rgb(185, 6, 6);
+  pointer-events: none
+}
+.trueWord{
+  color: rgb(40, 95, 40);
+  border: 3px solid rgb(40, 95, 40);
+  pointer-events: none
+}
