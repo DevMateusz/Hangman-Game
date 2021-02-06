@@ -1,31 +1,31 @@
+{
 const baseWords = ["outlook", "The Last of Us", "Gentleman Jack", "Diesel Only The Brave", " Petrol Industriesc", "Frywolne Zakonnice", "Imperialistyczne Frankfurterki"]
-let currentlyWord = "";
 
 function randomWord(){
     const randomNumber = Math.floor(Math.random() * (baseWords.length));
     console.log(randomNumber);
-    currentlyWord = baseWords[randomNumber];
+    let currentlyWord = baseWords[randomNumber];
     currentlyWord = currentlyWord.toUpperCase();
-
+    return currentlyWord;
 }
+let currentlyWord = randomWord();
 
 
 
-
-function tableToString(table){
+function arrayToString(array){
     let string = "";
-    for (let i = 0; i < table.length; i++) {
-        string += table[i];
+    for (let i = 0; i < array.length; i++) {
+        string += array[i];
     }
     return string;
 }
 
-let currentlyWordTable = [];
-function wordToTable(){
+let currentlyWordArray = [];
+function wordToArray(){
     const length = currentlyWord.length;
     for (let i = 0; i < length; i++) {
         let word = currentlyWord.charAt(i)
-        currentlyWordTable.push(word);
+        currentlyWordArray.push(word);
     }
 }
 
@@ -33,7 +33,7 @@ let hidenWord = [];
 function makeHidenWord(){
     const length = currentlyWord.length;
     for (let i = 0; i < length; i++) {
-        if(currentlyWordTable[i] == " "){
+        if(currentlyWordArray[i] == " "){
             hidenWord.push(" ");
         } else{
             hidenWord.push("_");
@@ -54,7 +54,7 @@ function lettersMake(){
 }
 
 function wordWrite(){
-    const word = tableToString(hidenWord);
+    const word = arrayToString(hidenWord);
     document.getElementById("word").innerHTML = word;
 }
 
@@ -65,58 +65,73 @@ letter.classList.add(`${status}Word`);
 }
 
 function checkStatusGame(){
-    const wordOne = tableToString(hidenWord);
-    const wordTwo =tableToString(currentlyWordTable);
+    if (stateAnimation >= timeAnimation.length){
+        setTimeout(function(){
+            alert("przejabłeś xddbeka z cb");
+            newGame();
+        },100);
+        
+        
+        
+    }
+    const wordOne = arrayToString(hidenWord);
+    const wordTwo = arrayToString(currentlyWordArray);
     if(wordOne == wordTwo){
         alert("juchu wygrałeś")
         newGame();
     }
 }
 
-function checkLetter(number){
-    for (let i = 0; i < currentlyWordTable.length; i++) {
-        if(currentlyWordTable[i] == lettersName[number]){
-            console.log(i);
-            hidenWord[i] = lettersName[number];
-            wordStatus(number, true);
-        }
-        if(currentlyWordTable[i] != lettersName[number]){
-            wordStatus(number, false);
-        }
+const video = document.getElementById("video");
+const timeAnimation = [8000,2000,1000,500,500];
+let stateAnimation = 0;
+let animationProgres = false;
+function checkAndRunAnimation(flag){
+    if(!flag){
+        animationProgres = true;
+        video.play();
+        setTimeout(function(){
+            video.pause();
+            animationProgres = false;
+        },timeAnimation[stateAnimation]);
+        console.log('oj byczku przyps',timeAnimation[stateAnimation]);
+        stateAnimation++;
+        
     }
-    wordWrite();
-    setTimeout(function(){checkStatusGame();},10);
+}
+
+function checkLetter(number){
+    if (!animationProgres) {
+        let flag = false
+        for (let i = 0; i < currentlyWordArray.length; i++) {
+            if(currentlyWordArray[i] == lettersName[number]){
+                console.log(i);
+                hidenWord[i] = lettersName[number];
+                flag = true
+            }
+        }
+        checkAndRunAnimation(flag);
+        wordStatus(number, flag);
+        wordWrite();
+        setTimeout(function(){checkStatusGame();},100);
+    }
 }
 
 function resetVariables(){
-    currentlyWordTable = [];
+    currentlyWordArray = [];
     hidenWord = [];
+    stateAnimation = 0;
+    video.currentTime = 0;
+    video.pause();
 }
 
 function newGame(){
     resetVariables();
     randomWord();
     lettersMake();
-    wordToTable();
+    wordToArray();
     makeHidenWord();
     wordWrite();
 }
 window.onload = newGame;
-
-
-
-
-
-
-
-
-
-// const button = document.querySelector('.button');
-// var video = document.getElementById("video");
-// let stateAnimate = 0;
-// const timeAnimation = [1000,2000,3000,500,500]
-// button.addEventListener('click', ()=>{
-// video.play();
-// setTimeout(function(){video.pause();},timeAnimation[stateAnimate]);
-// stateAnimate++;
-// });
+}
