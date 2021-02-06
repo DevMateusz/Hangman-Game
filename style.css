@@ -17,7 +17,8 @@ body{
   background-color: rgb(82, 82, 82);
 }
 #word{
-  width: 60vh;
+  min-height: 133px;
+  width: 80vh;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -65,7 +66,7 @@ font-style: normal;
   margin: auto;
   margin-top: 30px;
   display: block;
-  width: 700px ;
+  width: 600px ;
   box-shadow: 0px 0px 30px 50px rgb(7, 7, 7);
 }
 
