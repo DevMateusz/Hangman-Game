@@ -98,10 +98,10 @@ function checkStatusGame(){
         stateAnimation = 0;
         setTimeout(function(){
             newGame();
-        },2000);
+        },5000);
         setTimeout(function(){
             createEndScreen(0, currentlyWord);
-        },1000);
+        },2000);
     }
     const actuallyWord = arrayToString(hidenWord);
     const chceckedWord = arrayToString(currentlyWordArray);
@@ -109,10 +109,10 @@ function checkStatusGame(){
         animationProgres = true;
         setTimeout(function(){
             newGame();
-        },2000);
+        },5000);
         setTimeout(function(){
             createEndScreen(1, currentlyWord);
-        },1000);
+        },500);
     }
 }
 
