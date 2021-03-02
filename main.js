@@ -1,14 +1,29 @@
 {
-const baseWords = ["outlook", "The Last of Us", "Gentleman Jack", "Diesel Only The Brave", " Petrol Industriesc", "Frywolne Zakonnice", "Imperialistyczne Frankfurterki"]
-
+const baseWords = ["outlook", "The Last of Us", "Gentleman Jack", "Diesel Only The Brave",
+                   "Petrol Industriesc", "Frywolne Zakonnice", "Imperialistyczne Frankfurterki",
+                   "dwa oblicza życia", "horse", "drugs", "dynamite", "oświeceni", "lachowice",
+                   "cmentarz", "szczęśliwa piwnica", "deszczówka", "alkohol to życie",
+                   "energetyki to życie", "prawo jazdy", "goticzek to życie",
+                   "wywaliło blendera", "brką pierdolnij", "karny cieplutki",
+                   "zimny jak lód", "cymboł nad cymboły", "firewire", "sprzątaczka", 
+                   "linkin park", "nowe niskie podatki", "hard sadistic", "black lives matter", 
+                   "państwo daje pieniążki", "prostytuty", "myślę więc jestem", "czarna dziura", 
+                   "rakieta wybuchła", "wygrałem zakład", "darmowy kebab", "degenerat", "cymboł", 
+                   "wiwisekcja", "komunista", "bolszewik", "policyjna prowokacja", "cenzura", 
+                   "strona na tabelkach", "japońskie badania", "a my wiemy", "i nie powiemy", 
+                   "jeżeli ktoś to", "skojarzy to będę", "bardzo zdziwiony", "nie usuwaj proszę", 
+                   "gumy orbit", "lokowanie produktu", "wolny rynek", "handel niewolnikami", 
+                   "strzelanie w tył głowy", "pan Januszek kochany", "filozofia życia XD", 
+                   "friedrich nietzsche", "katalizator z opla", "znowu silnik", 
+                   "programy tylko z chmury", "biały proszek", "Ambiwalnetny stosunek do życia", 
+                   "na zimnym mu daj", "bączki koło lidla"];
+let currentlyWord = "";
 function randomWord(){
     const randomNumber = Math.floor(Math.random() * (baseWords.length));
-    console.log(randomNumber);
-    let currentlyWord = baseWords[randomNumber];
+    currentlyWord = baseWords[randomNumber];
     currentlyWord = currentlyWord.toUpperCase();
-    return currentlyWord;
 }
-let currentlyWord = randomWord();
+
 
 
 
@@ -63,27 +78,46 @@ const idLetter = `number${number}`
 const letter = document.getElementById(idLetter);
 letter.classList.add(`${status}Word`);
 }
+const endContainer = document.getElementById("end-container");
+function createEndScreen(state, word){
+    let color = "red";
+    let text = "PRZEGRAŁEŚ"
+    if(state == 1){
+        color = "green";
+        text = "WYGRAŁEŚ"
+    }
+    const endScreen = `<div class="and-screen"><p><span class="end-text" style="color: ${color}">${text}</span><br><span class="end-word">HASŁO TO ${word}</span></p></div>`
+    endContainer.innerHTML = endScreen;
+}
 
+const word = document.getElementById('word');
+let gameEnd = false;
 function checkStatusGame(){
     if (stateAnimation >= timeAnimation.length){
+        gameEnd = true;
+        stateAnimation = 0;
         setTimeout(function(){
-            alert("przejabłeś xddbeka z cb");
             newGame();
-        },100);
-        
-        
-        
+        },2000);
+        setTimeout(function(){
+            createEndScreen(0, currentlyWord);
+        },1000);
     }
-    const wordOne = arrayToString(hidenWord);
-    const wordTwo = arrayToString(currentlyWordArray);
-    if(wordOne == wordTwo){
-        alert("juchu wygrałeś")
-        newGame();
+    const actuallyWord = arrayToString(hidenWord);
+    const chceckedWord = arrayToString(currentlyWordArray);
+    if(actuallyWord == chceckedWord){
+        animationProgres = true;
+        setTimeout(function(){
+            newGame();
+        },2000);
+        setTimeout(function(){
+            createEndScreen(1, currentlyWord);
+        },1000);
     }
 }
 
 const video = document.getElementById("video");
-const timeAnimation = [8000,2000,1000,500,500];
+const timeAnimation = [2000,2000,1000,2000,1000,1000,2000,1000,1400,500];
 let stateAnimation = 0;
 let animationProgres = false;
 function checkAndRunAnimation(flag){
@@ -94,18 +128,16 @@ function checkAndRunAnimation(flag){
             video.pause();
             animationProgres = false;
         },timeAnimation[stateAnimation]);
-        console.log('oj byczku przyps',timeAnimation[stateAnimation]);
         stateAnimation++;
         
     }
 }
 
 function checkLetter(number){
-    if (!animationProgres) {
+    if (!animationProgres && !gameEnd) {
         let flag = false
         for (let i = 0; i < currentlyWordArray.length; i++) {
             if(currentlyWordArray[i] == lettersName[number]){
-                console.log(i);
                 hidenWord[i] = lettersName[number];
                 flag = true
             }
@@ -123,6 +155,9 @@ function resetVariables(){
     stateAnimation = 0;
     video.currentTime = 0;
     video.pause();
+    word.classList.remove('winAnimation');
+    animationProgres = false;
+    gameEnd = false;
 }
 
 function newGame(){
